@@ -1,3 +1,10 @@
+<?php
+require 'config.php';
+include 'src/Clientes.php';
+$meusClientes = new Cliente($mysql);
+$clientes = $meusClientes->exibirTodosClientes();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -62,57 +69,25 @@
           </tr>
         </thead>
         <tbody>
+        <?php foreach ($clientes as $cliente) : ?>
           <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <th scope="row"><?php echo $cliente['Codigo']; ?></th>
+            <td><?php echo $cliente['PrimeiroNome']; ?></td>
+            <td><?php echo $cliente['SegundoNome']; ?></td>
+            <td><?php echo $cliente['Fone']; ?></td>
             <td>
-              <a class="text-primary text-decoration-none" href="#">
+              <a class="text-primary text-decoration-none" href="form-clientes.php?opcao=view&codigo=<?php echo $cliente['Codigo']; ?>">
                 <i class="fa-solid fa-eye"></i>
               </a>
-              <a class="text-success text-decoration-none" href="#">
+              <a class="text-success text-decoration-none" href="form-clientes.php?opcao=edit&codigo=<?php echo $cliente['Codigo']; ?>">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
-              <a class="text-danger text-decoration-none" href="#">
+              <a class="text-danger text-decoration-none" href="excluir-clientes.php?codigo=<?php echo $cliente['Codigo']; ?>">
                 <i class="fa-solid fa-trash"></i>
               </a>
             </td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>
-              <a class="text-primary text-decoration-none" href="#">
-                <i class="fa-solid fa-eye"></i>
-              </a>
-              <a class="text-success text-decoration-none" href="#">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-              <a class="text-danger text-decoration-none" href="#">
-                <i class="fa-solid fa-trash"></i>
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry the Bird</td>
-            <td>Larry the Bird</td>
-            <td>@twitter</td>
-            <td>
-              <a class="text-primary text-decoration-none" href="#">
-                <i class="fa-solid fa-eye"></i>
-              </a>
-              <a class="text-success text-decoration-none" href="#">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-              <a class="text-danger text-decoration-none" href="#">
-                <i class="fa-solid fa-trash"></i>
-              </a>
-            </td>
-          </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </main>
