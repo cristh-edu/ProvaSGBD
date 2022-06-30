@@ -38,22 +38,20 @@ class Cliente
         cliente (PrimeiroNome,SegundoNome,Endereco,Cidade,CEP,RG,DataNasci,Fone)
         VALUES (?,?,?,?,?,?,?,?)");
 
-        $adicionar->bind_param('ssssssss', $PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CEP, $RG, $DataNasci, $Fone);
+        $adicionar->bind_param('sssssssss', $PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CPF, $CEP, $RG, $DataNasci, $Fone);
 
         $adicionar->execute();
     }
 
     public function editaCliente(
-        string $id,
-        string $titulo,
-        string $conteudo
+        String $Codigo, $PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CPF, $CEP, $RG, $DataNasci, $Fone
     ) {
         $adicionar = $this->mysql
             ->prepare("UPDATE 
-        cliente SET titulo = ? , conteudo = ?
-        WHERE id = ?");
+        cliente SET PrimeiroNome = ? , SegundoNome = ? , Endereco = ? , Cidade = ? , CPF = ?, CEP = ? , RG = ? , DataNasci = ? , Fone = ?
+        WHERE Codigo = ?");
 
-        $adicionar->bind_param('sss', $titulo, $conteudo, $id);
+        $adicionar->bind_param('ssssssssss', $PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CPF, $CEP, $RG, $DataNasci, $Fone, $Codigo);
 
         $adicionar->execute();
     }
@@ -67,7 +65,7 @@ class Cliente
     public function excluirCliente(string $id): void
     {
         $excluir = $this->mysql->prepare("DELETE FROM 
-                    cliente WHERE id=?");
+                    Cliente WHERE Codigo=?");
         $excluir->bind_param('s', $id);
         $excluir->execute();
     }

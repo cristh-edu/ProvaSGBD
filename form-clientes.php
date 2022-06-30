@@ -14,6 +14,7 @@ $cliente['CPF'] = '';
 $cliente['RG'] = '';
 $cliente['DataNasci'] = '';
 $cliente['Fone'] = '';
+$opcao = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $Codigo = $_POST['Codigo'];
@@ -22,19 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $Endereco = $_POST['Endereco'];
   $Cidade = $_POST['Cidade'];
   $CEP = $_POST['CEP'];
+  $CPF = $_POST['CPF'];
   $RG = $_POST['RG'];
   $DataNasci = $_POST['DataNasci'];
   $Fone = $_POST['Fone'];
 
   if ($Codigo !== "0") {
-    $clientes->editaCliente($Codigo, $PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CEP, $RG, $DataNasci, $Fone);
+    $clientes->editaCliente($Codigo, $PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CPF, $CEP, $RG, $DataNasci, $Fone);
   } else {
-    $clientes->adicionarCliente($PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CEP, $RG, $DataNasci, $Fone);
+    $clientes->adicionarCliente($PrimeiroNome, $SegundoNome, $Endereco, $Cidade, $CPF, $CEP, $RG, $DataNasci, $Fone);
   }
   redireciona('tabela-clientes.php');
 }
 if (isset($_GET['codigo'])) {
   $cliente = $clientes->encontrarPorId($_GET['codigo']);
+  $opcao = $_GET['opcao'];
 }
 ?>
 
@@ -71,60 +74,60 @@ if (isset($_GET['codigo'])) {
       <div class="row mb-1">
         <div class="col-12 col-md-4 mb-2">
           <label for="PrimeiroNome" class="form-label mb-0">Primeiro nome</label>
-          <input type="text" class="form-control" name="PrimeiroNome" id="PrimeiroNome" value="<?= $cliente['PrimeiroNome']; ?>" required />
+          <input type="text" class="form-control" name="PrimeiroNome" id="PrimeiroNome" value="<?= $cliente['PrimeiroNome']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
           <input class="form-control" type="hidden" id="Codigo" name="Codigo" value="<?= $cliente['Codigo']; ?>" />
         </div>
         <div class="col-12 col-md-4 mb-2">
           <label for="segundoNome" class="form-label mb-0">Segundo nome</label>
-          <input type="text" class="form-control" name="SegundoNome" id="SegundoNome" value="<?= $cliente['SegundoNome']; ?>" required />
+          <input type="text" class="form-control" name="SegundoNome" id="SegundoNome" value="<?= $cliente['SegundoNome']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
         <div class="col-12 col-md-4 mb-2">
           <label for="Endereco" class="form-label mb-0">Endereço</label>
-          <input type="text" class="form-control" name="Endereco" id="Endereco" value="<?= $cliente['Endereco']; ?>" required />
+          <input type="text" class="form-control" name="Endereco" id="Endereco" value="<?= $cliente['Endereco']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-12 col-md-2 mb-2">
           <label for="Cidade" class="form-label mb-0">Cidade</label>
-          <input type="text" class="form-control" name="Cidade" id="Cidade" value="<?= $cliente['Cidade']; ?>" required />
+          <input type="text" class="form-control" name="Cidade" id="Cidade" value="<?= $cliente['Cidade']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
         <div class="col-12 col-md-2 mb-2">
           <label for="CEP" class="form-label mb-0">CEP</label>
-          <input type="text" class="form-control" name="CEP" id="CEP" value="<?= $cliente['CEP']; ?>" required />
+          <input type="text" class="form-control" name="CEP" id="CEP" value="<?= $cliente['CEP']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
         <div class="col-12 col-md-2 mb-2">
           <label for="CPF" class="form-label mb-0">CPF</label>
-          <input type="text" class="form-control" id="CPF" name="CPF" placeholder="000.000.000-00" value="<?= $cliente['CPF']; ?>" required />
+          <input type="text" class="form-control" id="CPF" name="CPF" placeholder="000.000.000-00" value="<?= $cliente['CPF']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
         <div class="col-12 col-md-2 mb-2">
           <label for="RG" class="form-label mb-0">RG</label>
-          <input type="text" class="form-control" name="RG" id="RG" value="<?= $cliente['RG']; ?>" />
+          <input type="text" class="form-control" name="RG" id="RG" value="<?= $cliente['RG']; ?>" <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
         <div class="col-12 col-md-2 mb-2">
           <label for="DataNasci" class="form-label mb-0"> Data de nascimento </label>
-          <input type="date" class="form-control" name="DataNasci" id="DataNasci" value="<?= $clientes->converterData($cliente['DataNasci'], "-") ?>" required />
+          <input type="date" class="form-control" name="DataNasci" id="DataNasci" value="<?= $clientes->converterData($cliente['DataNasci'], "-") ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
         <div class="col-12 col-md-2 mb-2">
           <label for="Fone" class="form-label mb-0">Telefone</label>
-          <input type="text" class="form-control" id="Fone" name="Fone" placeholder="(00) 00000-0000" value="<?= $cliente['Fone']; ?>" required />
+          <input type="text" class="form-control" id="Fone" name="Fone" placeholder="(00) 00000-0000" value="<?= $cliente['Fone']; ?>" required <?= ($opcao ==="view") ? "disabled" : ""?>/>
         </div>
       </div>
       <div class="d-flex flex-row-reverse">
-        <button type="submit" class="btn btn-dark ms-2">
+        <button type="submit" class="btn btn-dark ms-2" <?= ($opcao ==="view") ? "disabled" : ""?>>
           <i class="fa-solid fa-floppy-disk"></i> Cadastrar
         </button>
-        <a class="btn btn-secondary">Cancelar</a>
+        <input class="btn btn-secondary" type="reset" value="Limpar Formulário" <?= ($opcao ==="view") ? "disabled" : ""?>/>
       </div>
     </form>
-    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
+    <?php if (isset($_GET['codigo'])) : ?>
       <hr />
       <div class="mt-2">
         <h3 class="text-center">Vendas</h3>
         <!-- Button trigger modal -->
         <div class="d-flex flex-row-reverse">
-          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <a href="vendas.php?cliente=<?=$_GET['codigo'];?>" class="btn btn-dark">
             <i class="fa-solid fa-sack-dollar"></i> Nova Venda
-          </button>
+          </a>
         </div>
         <table class="mt-2 table table-striped">
           <thead class="bg-dark text-light">
@@ -134,16 +137,24 @@ if (isset($_GET['codigo'])) {
               <th scope="col">Valor Desconto</th>
               <th scope="col">Valor Acréscimo</th>
               <th scope="col">Valor Total</th>
+              <th scope="col">Data da Venda</th>
               <th scope="col">Opções</th>
             </tr>
           </thead>
           <tbody>
+          <?php 
+            include 'src/Vendas.php';
+            $minhasVendas = new Venda($mysql);
+            $vendas = $minhasVendas->encontrarPorCliente($_GET['codigo']);
+            foreach ($vendas as $venda) :
+          ?>
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
+              <th scope="row"><?= $venda['Codigo'];?></th>
+              <td><?= $venda['ValorParcial'];?></td>
+              <td><?= $venda['ValorDesconto'];?></td>
+              <td><?= $venda['ValorAcrescimo'];?></td>
+              <td><?= $venda['ValorTotal'];?></td>
+              <td><?= $venda['dtVenda'];?></td>
               <td scope="row">
                 <a class="text-success text-decoration-none" href="#">
                   <i class="fa-solid fa-pen-to-square"></i>
@@ -153,76 +164,9 @@ if (isset($_GET['codigo'])) {
                 </a>
               </td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td scope="row">
-                <a class="text-success text-decoration-none" href="#">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <a class="text-danger text-decoration-none" href="#">
-                  <i class="fa-solid fa-trash"></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry the Bird</td>
-              <td>Larry the Bird</td>
-              <td>Thornton</td>
-              <td>@twitter</td>
-              <td scope="row">
-                <a class="text-success text-decoration-none" href="#">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <a class="text-danger text-decoration-none" href="#">
-                  <i class="fa-solid fa-trash"></i>
-                </a>
-              </td>
-            </tr>
+          <?php endforeach; ?>  
           </tbody>
         </table>
-      </div>
-
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Nova Venda</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="mb-1">
-                <label for="valorParcial" class="form-label mb-0">
-                  Valor Parcial
-                </label>
-                <input type="number" class="form-control" id="valorParcial" />
-              </div>
-              <div class="mb-1">
-                <label for="valorDesconto" class="form-label mb-0">
-                  Valor Desconto
-                </label>
-                <input type="number" class="form-control" id="valorDesconto" />
-              </div>
-              <div class="mb-0">
-                <label for="valorAcrescimo" class="form-label mb-0">
-                  Valor Acréscimo
-                </label>
-                <input type="number" class="form-control" id="valorAcrescimo" />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                Cancelar
-              </button>
-              <button type="button" class="btn btn-dark">Cadastrar</button>
-            </div>
-          </div>
-        </div>
       </div>
     <?php endif; ?>
   </main>
